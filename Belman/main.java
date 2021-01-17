@@ -10,7 +10,7 @@ public class Main
 	public static final int MAX_VALUE = 999;     
 	public static void main(String[ ] args)   
 	 {  
-		ford ford = new ford();
+		
 	    int num_ver = 0;        
 	    int source;         
 	    Scanner scanner = new Scanner(System.in);   
