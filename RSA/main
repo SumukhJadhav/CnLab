@@ -1,0 +1,33 @@
+package RSA;
+
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Main {
+	
+	RSA ford = new RSA();
+	public static void main(String[] args)throws IOException
+	{
+	RSA rsa=new RSA();
+	Scanner scan = new Scanner(System.in);
+	String testString;
+	System.out.println("Enter the plain text:");
+	testString = scan.nextLine();
+	System.out.println("Encrypting string:"+testString);
+	System.out.println("string in bytes:"+bytesToString(testString.getBytes()));
+	byte[] encrypted=rsa.encrypt(testString.getBytes());
+	byte[] decrypted=rsa.decrypt(encrypted);
+	System.out.println("Dcrypting Bytes:"+bytesToString(decrypted));
+	System.out.println("Dcrypted string:"+new String(decrypted));
+	}
+	
+	private static String bytesToString(byte[] encrypted)
+	{
+	String test=" ";
+	for(byte b:encrypted)
+	{
+	test+=Byte.toString(b);
+	}
+	return test;
+}
+}
