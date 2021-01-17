@@ -12,9 +12,6 @@ public class ford
      D = new int[num_ver + 1];   
    } 
    
-  public ford() {
-	
-}
 
 public void BellmanFordEvaluation(int source, int A[][])     
   {     
