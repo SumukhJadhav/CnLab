@@ -1,0 +1,90 @@
+PROGRAM 1
+set val(stop)   20.0  //line 7
+
+$ns duplex-link $n0 $n2 95.0Mb 10ms DropTail //line 37 (100 to 95)
+
+$cbr0 set rate_ 100.0Mb
+
+
+PROGRAM 2
+
+set val(stop)   20.0   // LINE 7
+
+$ns duplex-link $n2 $n3 95.0Mb 10ms DropTail // LINE 44 (100 TO 95)
+
+Agent/Ping instproc recv {from rtt} {                           // LINE 80 (TYPE THAT)
+$self instvar node_
+puts "node [$node_ id] received ping answer from  $from with 
+round­trip­time $rtt ms."
+}
+#Create two ping agents and attach them to the nodes n0 and n1
+set p1 [new Agent/Ping]
+$ns attach-agent $n1 $p1
+set p2 [new Agent/Ping]
+$ns attach-agent $n2 $p2
+$ns connect $p1 $p2
+
+
+set i 0.1
+while { $i < 39 } {
+$ns at $i "$p2 send"
+set i [expr $i + 0.1]
+}
+
+$cbr0 set rate_ 100.0Mb // LINE 77 
+
+
+PROGRAM 3
+set val(stop)   85.0         // LINE 7
+
+// LINE 23 (TYPE THIS)
+set file4 [open cw4.out w]
+puts $file4 "Title = Congestion Window @ Node 4"
+puts $file4 "title_x = Time in Sec"
+puts $file4 "title_y = Window Size" 
+set file5 [open cw5.out w]
+puts $file5 "Title = Congestion Window @ Node 5"
+puts $file5 "title_x = Time in Sec"
+puts $file5 "title_y = Window Size"
+
+proc record {} {
+global tcp2 tcp4 file4 file5 
+#Get an instance of the simulator
+set ns [Simulator instance]
+#Set the time after which the procedure should be called again
+     set time 0.5
+#How many bytes have been received by the traffic sinks?
+     set cw4 [$tcp2 set cwnd_]
+set cw5 [$tcp4 set cwnd_]
+   
+    #Get the current time
+     set now [$ns now]
+puts $file4 "$now $cw4"
+puts $file5 "$now $cw5"
+     #Re­schedule the procedure
+     $ns at [expr $now+$time] "record"
+}
+$ns at 1.0 "record"
+
+
+// LINE 124 , 125
+$ns at 15.0 "$cbr0 start"
+$ns at 79.0 "$cbr0 stop"
+
+
+// LINE 130 ,131
+$ns at 5.0 "$ftp1 start"
+$ns at 80.0 "$ftp1 stop"
+
+
+// LINE 136 , 137
+$ns at 10.0 "$ftp2 start"
+$ns at 84.0 "$ftp2 stop"
+
+
+// LINE 150 , 151
+exec /home/trupthi/xgraph cw4.out &
+exec /home/trupthi/xgraph cw5.out &
+
+// LINE 122
+$cbr0 set rate_ 100.0Mb
