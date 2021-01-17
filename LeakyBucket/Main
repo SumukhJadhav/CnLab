@@ -1,0 +1,21 @@
+package bucket;
+
+import java.util.Scanner;
+import java.lang.*;
+public class Main {
+public static void main(String[] args)
+{
+Bucket bucket = new Bucket();
+int i;
+int a[]=new int[20];
+Scanner in = new Scanner(System.in);
+System.out.println("Enter the number of packets");
+int n = in.nextInt();
+System.out.println("Enter the packets");
+for(i=1;i<=n;i++)
+a[i]= in.nextInt();
+System.out.println("Clock \t packet size \t accept \t sent \t remaining");
+bucket.bucket(n,a);
+
+}
+}
