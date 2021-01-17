@@ -1,0 +1,26 @@
+package crc2;
+
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String args[]) {
+		
+		crc2 crc2 = new crc2();
+
+	    Scanner sc = new Scanner(System.in);
+
+	    //Input Data Stream
+	    System.out.print("Enter message bits: ");
+	    String message = sc.nextLine();
+	    System.out.print("Enter generator: ");
+	    String generator = sc.nextLine();
+	int data[] = new int[message.length() + generator.length() - 1];
+	int divisor[] = new int[generator.length()];
+	for(int i=0;i<message.length();i++)
+		data[i] = Integer.parseInt(message.charAt(i)+"");
+	for(int i=0;i<generator.length();i++)
+		divisor[i] = Integer.parseInt(generator.charAt(i)+"");
+	crc2.crc(data, message, generator, divisor);
+	
+}
+}
